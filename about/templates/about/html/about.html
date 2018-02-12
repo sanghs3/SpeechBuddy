@@ -1,35 +1,13 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-  <title>Bootstrap Website Tutorial</title>
+  <title>About</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style>
-  .navbar{
-  	margin-bottom: 0;
-  	border-radius: 0;
-  	background-color: #5E4485;
-  	color: #0000ff;
-  	padding: 1% 0;
-  	font-size: 1.2em;
-  	border: 0;
-  }
-  .navbar-brand{
-  	float: left;
-  	min-height: 55px;
-  	padding: 0 15px 5px;
-  }
-  .navbar-inverse .navbar-nav .active a, .navbar-inverse .navbar-nav .active a:focus, .navbar-inverse .navbar-nav .active a:hover{
-  	color:#000000;
-  	background-color: #5E4485;
-  }
-  .navbar-inverse .navbar-nav li a {
-  	color:#000000;
-  }
-  </style>
+<link rel="stylesheet" href="../static/css/base.css">
 </head>
 <body>
 
@@ -61,10 +39,65 @@
 			</div>		
 		</div>
 	</nav>
+
   <div class="row">
       <section class="col-sm-8">
-        <h2>Product Motivation</h2>
-          <p>Talk about Product Motivation</p>
+        <h2 id="nltk">Product Motivation</h2>
+          <form method="get">
+<input type="submit" value="START" name="mybtn" id="start_submit" class="btn btn-success"/>
+</form>
+
+
+          <script>
+          function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+              $("#nltk").click( function() {
+              var csrftoken = getCookie('csrftoken');
+              console.log(csrftoken);
+              var datas = {username: 'example'};
+              console.log(datas);
+              // set csrf header
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+
+            // Ajax call here
+            $.ajax({
+                url:"/about/nltk",
+                data: JSON.stringify(datas),
+                processData: false,
+                contentType: 'application/json',
+                type: 'POST',
+                success: function(data) {
+                    alert(data);
+                    }
+                });
+
+});
+
+          </script>
       </section>
   </div>
 </body>
