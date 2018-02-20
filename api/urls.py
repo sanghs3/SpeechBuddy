@@ -17,8 +17,6 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-     url(r'^$', views.index, name='About')
-     #url(r'^nltk', views.nltk, name='nltk'),
-     #url(r'^syn', views.syn, name='syn'),
-
+     url(r'^nltk/', views.nltk, name='Team'),
+     url(r'^syn/', views.syn, name='Team')
 ]

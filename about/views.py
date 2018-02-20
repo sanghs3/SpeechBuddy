@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import requires_csrf_token
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.csrf import csrf_protect
-
+from nltkCorpus import mostCommon
+from nltkCorpus import synCreate
 import json
 # Create your views here.
 
@@ -17,19 +18,7 @@ import json
 def index(request):
     context = RequestContext(request)
     print(context)
-    return render(request, 'about/html/about.html', )
+    return render(request, 'about/html/about.html', {"corpus" : 0})
 
 
 
-
-@requires_csrf_token
-def nltk(request):
-    if request.is_ajax:
-       # do your stuff here
-        #post = request.POST.get()
-       ids = request.body.decode('utf-8')
-       print(ids)
-       return render(request, "about/html/about.html", {'name': "tt"})
-
-    else:
-        return HttpResponse(status=400)

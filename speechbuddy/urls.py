@@ -23,7 +23,8 @@ urlpatterns = [
     url(r'^$', include('home.urls')),
     url(r'^team/', include('team.urls')),
     url(r'^recorder/', include('recorder.urls')),
-    url(r'^about/', include('about.urls'))
+    url(r'^about/', include('about.urls')),
+    url(r'^api/', include('api.urls'))
 
 ]
 
