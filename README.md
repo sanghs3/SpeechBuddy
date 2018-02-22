@@ -33,7 +33,7 @@ python PATH\SpeechBuddy-master\manage.py collectstatic
 python PATH\SpeechBuddy-master\manage.py runserver
 ```
 6. If a module is not found, try going to the file where the error occured and add the package name with a period proceeding the module
-that is not found. For example, if nltkMethod is not founw, go to the api/views.py file and change the imports from:
+that is not found. For example, if nltkMethod is not found, go to the api/views.py file and change the imports from:
 ```
 from nltkMethod import mostCommon
 ```
