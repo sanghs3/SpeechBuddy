@@ -43,7 +43,7 @@ var Recorder = exports.Recorder = (function () {
 
         this.config = {
             bufferLen: 4096,
-            numChannels: 2,
+            numChannels: 1,
             mimeType: 'audio/wav'
         };
         this.recording = false;
@@ -76,8 +76,8 @@ var Recorder = exports.Recorder = (function () {
         this.worker = new _inlineWorker2.default(function () {
             var recLength = 0,
                 recBuffers = [],
-                sampleRate = undefined,
-                numChannels = undefined;
+                sampleRate = 16000,
+                numChannels = 1;
 
             self.onmessage = function (e) {
                 switch (e.data.command) {

@@ -17,6 +17,9 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-     url(r'^nltk/', views.nltk, name='Team'),
-     url(r'^syn/', views.syn, name='Team')
+     url(r'^nltk/', views.nltkCall, name='nltk'),
+     url(r'^syn/', views.synCall, name='syn'),
+     url(r'^google/', views.googleCall, name='google')
+
+
 ]
