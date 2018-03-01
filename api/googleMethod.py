@@ -1,6 +1,5 @@
 import io
 import os
-import googleMethod
 
 
 #Imports the Google Cloud client library
@@ -11,7 +10,7 @@ import wave
 
 def googleApiCall(path):
 
-# Instantiates a client
+    # Instantiates a client
     client = speech.SpeechClient()
 
     # The name of the audio file to transcribe
@@ -31,18 +30,26 @@ def googleApiCall(path):
 
     # Detects speech in the audio file
     response = client.recognize(config, audio)
+    response = formatResponse(response)
     return response
 
-# for result in response.results:
-    #         alternative = result.alternatives[0]
-    #         print('Transcript: {}'.format(alternative.transcript))
-    #         print('Confidence: {}'.format(alternative.confidence))
-    #
-    #         for word_info in alternative.words:
-    #             word = word_info.word
-    #             start_time = word_info.start_time
-    #             end_time = word_info.end_time
-    #             print('Word: {}, start_time: {}, end_time: {}'.format(
-    #                 word,
-    #                 start_time.seconds + start_time.nanos * 1e-9,
-    #                 end_time.seconds + end_time.nanos * 1e-9))
+def formatResponse(response):
+    stringData="{";
+
+    for result in response.results:
+        alternative = result.alternatives[0]
+        stringData = stringData + '"Transcript":"' + alternative.transcript.encode('ascii') + '",'
+        stringData = stringData + '"Confidence":' + str(alternative.confidence) + '}'
+        movingWindow=[]
+
+        indexS = 4
+        indexE = 0
+        for index in range(indexS,len(alternative.words)):
+            startFrame = alternative.words[indexE].start_time.seconds + alternative.words[indexE].start_time.nanos * 1e-9
+            endFrame = alternative.words[indexS].end_time.seconds + alternative.words[indexS].end_time.nanos * 1e-9
+            wpm = round(endFrame - startFrame,1)
+            movingWindow.append(wpm)
+            indexE = indexE + 1
+            indexS = indexS + 1
+        #print movingWindow
+    return [alternative.transcript.encode('ascii'),alternative.confidence, movingWindow]

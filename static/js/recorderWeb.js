@@ -91,49 +91,52 @@
 					recorder && recorder.exportWAV(function (blob) {
 						callback(blob);
 						console.log(blob);
-												var submit = document.getElementById("submit");
+					    var submit = document.getElementById("submit");
+					    if(!submit.hasChildNodes()){
+					        var p = document.createElement('button');
+				            p.setAttribute("type", "button");
+                            p.setAttribute("class", "btn btn-success");
+                            p.setAttribute("id", "submitAPI");
+                            var t = document.createTextNode("Submit");
+                            p.appendChild(t);
+                            submit.appendChild(p);
+					    }
 
-				var p = document.createElement('button');
-				p.setAttribute("type", "button");
-			    p.setAttribute("class", "btn btn-success");
-                p.setAttribute("id", "submitAPI");
-				var t = document.createTextNode("Submit");
-				p.appendChild(t);
-				submit.appendChild(p);
+				     $("#submitAPI").click( function() {
+                        var csrftoken = getCookie('csrftoken');
+                        console.log(csrftoken);
+                        // console.log(typeof($('#string').html()));
+                        var fd = new FormData();
+                          var reader  = new FileReader();
+                        //console.log(reader.readAsDataURL(AudioBLOB))
+                        var fileType = 'audio';
+                        var fileName = 'output.wav';
+                        fd.append(fileType, blob, fileName);
+                        // set csrf header
+                        $.ajaxSetup({
+                        beforeSend: function(xhr, settings) {
+                            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                            }
+                            }
+                            });
 
-				 $("#submitAPI").click( function() {
-    var csrftoken = getCookie('csrftoken');
-    console.log(csrftoken);
-    // console.log(typeof($('#string').html()));
-    var fd = new FormData();
-      var reader  = new FileReader();
-    //console.log(reader.readAsDataURL(AudioBLOB))
-    var fileType = 'audio';
-    var fileName = 'output.wav';
-    fd.append(fileType, blob, fileName);
+                                // Ajax call here
+                        $.ajax({
+                            url:"/api/google/",
+                            data: fd,
+                            processData: false,
+                            contentType: false,
+                            type: 'POST',
+                            success: function(data) {
 
+                            googleResponse(data);
+                            nltkCorpus(data);
+                            console.log(data);
 
-    // set csrf header
-    $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-        }
-        });
-
-            // Ajax call here
-    $.ajax({
-        url:"/api/google/",
-        data: fd,
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        success: function(data) {
-
-        }
-    });
- })
+                            }
+                        });
+                     })
 
 
 						// create WAV download link using audio data blob
@@ -191,9 +194,13 @@
 				        //fileURL = AudioBLOB.createObjectURL(file);
 				        //console.log(fileURL);
 
-
-
+				        var rlist = document.getElementById("recordingslist");
+				        if(rlist.hasChildNodes()){
+				            rlist.removeChild(rlist.firstChild);
+				        }
 						recordingslist.appendChild(li);
+						 var x = document.getElementById("recordingtitle");
+						 x.style.display = "block";
 					}, _AudioFormat);
 				}, false);
 			};
