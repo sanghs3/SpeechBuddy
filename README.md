@@ -42,7 +42,7 @@ to
 from api.nltkMethod import mostCommon
 ```
 7. Battle your way through all of the other errors that appear until you finally get the server to run.
-8. Type the URL of the server (something like http://http://127.0.0.1:8000/) into chrome to see the webpage
+8. Type the URL of the server (something like http://127.0.0.1:8000/) into chrome to see the webpage
 9. Edit this README with whatever steps that I missed or fixes to other errors that you ran into.
 
 ## Good Luck!
